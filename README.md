@@ -28,6 +28,8 @@ Enter quantity: 2
 Added to cart!  
 
 Total Bill = ₹4000  
-Thank you for shopping💙!
+
+Thank you for shopping!💙
+
 ## ✅ Conclusion
 Project completed successfully using OOP concepts in C++.
