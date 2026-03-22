@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 class Product {
@@ -8,43 +9,165 @@ public:
     float price;
 };
 
-int main() {
-    Product p[3] = {
-        {1, "Shoes", 2000},
-        {2, "Watch", 1500},
-        {3, "Bag", 1000}
-    };
+class CartItem {
+public:
+    int id;
+    string name;
+    int qty;
+    float totalPrice;
+};
 
-    int choice, qty;
-    float total = 0;
+// 🛒 Products List
+Product products[6] = {
+    {1, "Shoes", 2000},
+    {2, "Watch", 1500},
+    {3, "Bag", 1000},
+    {4, "T-Shirt", 800},
+    {5, "Headphones", 2500},
+    {6, "Sunglasses", 1200}
+};
 
-    cout << "🛒 Welcome to Online Shopping System\n";
+CartItem cart[20];
+int cartSize = 0;
 
-    while (true) {
-        cout << "\nAvailable Products:\n";
-        for (int i = 0; i < 3; i++) {
-            cout << p[i].id << ". " << p[i].name << " - ₹" << p[i].price << endl;
-        }
+// 📦 Show Products
+void showProducts() {
+    cout << "\n🛒 Available Products:\n";
+    for (int i = 0; i < 6; i++) {
+        cout << products[i].id << ". "
+             << products[i].name << " - ₹"
+             << products[i].price << endl;
+    }
+}
 
-        cout << "Enter product ID to buy (0 to exit): ";
-        cin >> choice;
+// ➕ Add to Cart
+void addToCart() {
+    int id, qty;
+    cout << "Enter Product ID: ";
+    cin >> id;
 
-        if (choice == 0)
-            break;
+    cout << "Enter Quantity: ";
+    cin >> qty;
 
-        cout << "Enter quantity: ";
-        cin >> qty;
+    for (int i = 0; i < 6; i++) {
+        if (products[i].id == id) {
+            cart[cartSize].id = id;
+            cart[cartSize].name = products[i].name;
+            cart[cartSize].qty = qty;
+            cart[cartSize].totalPrice = qty * products[i].price;
+            cartSize++;
 
-        for (int i = 0; i < 3; i++) {
-            if (p[i].id == choice) {
-                total += p[i].price * qty;
-                cout << "Added to cart!\n";
-            }
+            cout << "✅ Added to cart!\n";
+            return;
         }
     }
 
-    cout << "\nTotal Bill = ₹" << total << endl;
-    cout << "Thank you for shopping! 💙";
+    cout << "❌ Invalid Product!\n";
+}
 
-    return 0;
+// 🧾 View Cart
+float viewCart() {
+    float total = 0;
+
+    cout << "\n🧾 Your Cart:\n";
+
+    if (cartSize == 0) {
+        cout << "Cart is empty!\n";
+        return 0;
+    }
+
+    for (int i = 0; i < cartSize; i++) {
+        cout << cart[i].id << " "
+             << cart[i].name << " x"
+             << cart[i].qty << " = ₹"
+             << cart[i].totalPrice << endl;
+
+        total += cart[i].totalPrice;
+    }
+
+    cout << "Total = ₹" << total << endl;
+    return total;
+}
+
+// ❌ Remove Item
+void removeItem() {
+    int id;
+    cout << "Enter Product ID to remove: ";
+    cin >> id;
+
+    for (int i = 0; i < cartSize; i++) {
+        if (cart[i].id == id) {
+            for (int j = i; j < cartSize - 1; j++) {
+                cart[j] = cart[j + 1];
+            }
+            cartSize--;
+            cout << "❌ Item removed!\n";
+            return;
+        }
+    }
+
+    cout << "Item not found!\n";
+}
+
+// 💰 Checkout + Save File
+void checkout() {
+    float total = viewCart();
+
+    if (total == 0) return;
+
+    if (total > 3000) {
+        cout << "🎉 Discount Applied (₹200)\n";
+        total -= 200;
+    }
+
+    cout << "Final Amount = ₹" << total << endl;
+
+    // 💾 Save bill
+    ofstream file("bill.txt");
+
+    file << "===== Shopping Bill =====\n";
+    for (int i = 0; i < cartSize; i++) {
+        file << cart[i].name << " x"
+             << cart[i].qty << " = ₹"
+             << cart[i].totalPrice << endl;
+    }
+
+    file << "------------------------\n";
+    file << "Final Amount = ₹" << total << endl;
+
+    file.close();
+
+    cout << "💾 Bill saved as bill.txt\n";
+    cout << "💙 Thank you for shopping!\n";
+    cout << "Visit again 😊\n";
+}
+
+// 🧠 Main Menu
+int main() {
+    int choice;
+
+    while (true) {
+        cout << "\n========== MENU ==========\n";
+        cout << "1. View Products\n";
+        cout << "2. Add to Cart\n";
+        cout << "3. View Cart\n";
+        cout << "4. Remove Item\n";
+        cout << "5. Checkout\n";
+        cout << "6. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: showProducts(); break;
+            case 2: addToCart(); break;
+            case 3: viewCart(); break;
+            case 4: removeItem(); break;
+            case 5: checkout(); break;
+            case 6:
+                cout << "Exiting... Thank you for shopping! 💙\n";
+                return 0;
+            default:
+                cout << "❌ Invalid choice!\n";
+        }
+    }
 }
