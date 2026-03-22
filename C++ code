@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+class Student {
+public:
+    int id;
+    string name;
+
+    void input() {
+        cout << "Enter ID: ";
+        cin >> id;
+        cout << "Enter Name: ";
+        cin >> name;
+    }
+
+    void display() {
+        cout << id << " " << name << endl;
+    }
+};
+
+int main() {
+    Student s;
+    s.input();
+    s.display();
+}
