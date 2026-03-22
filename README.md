@@ -1,18 +1,33 @@
-# Online Shopping Management System
+# 🛒 Online Shopping Management System
 
-## Introduction
-This project is made using C++.
+## 📘 Introduction
+This project is made using C++ and simulates an online shopping system.
 
-## Objectives
+## 🎯 Objectives
 - Display products
 - Add to cart
 - Calculate bill
 
-## Methodology
-Using classes and arrays
+## ⚙️ Methodology
+Using classes and arrays to manage products and user input.
 
-## Implementation
-C++ code
+## 💻 Implementation
+The project is implemented using C++ programming language.
 
-## Conclusion
-Project completed successfully
+## 🧾 Output
+
+Welcome to Online Shopping System
+
+1. Shoes - ₹2000  
+2. Watch - ₹1500  
+3. Bag - ₹1000  
+
+Enter product ID: 1  
+Enter quantity: 2  
+
+Added to cart!  
+
+Total Bill = ₹4000  
+
+## ✅ Conclusion
+Project completed successfully using OOP concepts in C++.
