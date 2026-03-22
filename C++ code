@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+
+class Product {
+public:
+    int id;
+    string name;
+    float price;
+};
+
+int main() {
+    Product p[3] = {
+        {1, "Shoes", 2000},
+        {2, "Watch", 1500},
+        {3, "Bag", 1000}
+    };
+
+    int choice, qty;
+    float total = 0;
+
+    cout << "🛒 Welcome to Online Shopping System\n";
+
+    while (true) {
+        cout << "\nAvailable Products:\n";
+        for (int i = 0; i < 3; i++) {
+            cout << p[i].id << ". " << p[i].name << " - ₹" << p[i].price << endl;
+        }
+
+        cout << "Enter product ID to buy (0 to exit): ";
+        cin >> choice;
+
+        if (choice == 0)
+            break;
+
+        cout << "Enter quantity: ";
+        cin >> qty;
+
+        for (int i = 0; i < 3; i++) {
+            if (p[i].id == choice) {
+                total += p[i].price * qty;
+                cout << "Added to cart!\n";
+            }
+        }
+    }
+
+    cout << "\nTotal Bill = ₹" << total << endl;
+    cout << "Thank you for shopping! 💙";
+
+    return 0;
+}
